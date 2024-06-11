@@ -6,15 +6,24 @@ import {
   View,
   Pressable,
 } from "react-native";
-import products from "../data/products";
+import { useSelector, useDispatch } from "react-redux";
+import { productsSlice } from "../store/productsSlice";
 
 const ProductScreen = ({ navigation }) => {
+  const products = useSelector((state) => state.products.products);
+
+  const dispatch = useDispatch();
   return (
     <FlatList
       data={products}
       renderItem={({ item }) => (
         <Pressable
-          onPress={() => navigation.navigate('Product Details')}
+          onPress={() => {
+            // update selected product using dispatch.
+
+            dispatch(productsSlice.actions.setSelectedProduct(item.id));
+            navigation.navigate("Product Details");
+          }}
           style={styles.itemContainer}
         >
           <Image
